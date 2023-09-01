@@ -30,13 +30,13 @@ class zengge:
     self.mac = mac
     self.client = None
     self.device = None
-    self.notifyhandle = ""  #handle NOTIFY
-    self.statehandle = ""   #handle ffe4
-    self.redhandle = ""     #handle ffe6
-    self.greenhandle = ""   #handle ffe7
-    self.bluehandle = ""    #handle ffe8
-    self.rgbwhandle = ""    #handle ffe9
-    self.whitehandle = ""   #handle ffea
+    self.NOTIFY_UUID = ""  #handle NOTIFY
+    #self.UUID_STATE = ""   #handle ffe4
+    self.UUID_RED = ""     #handle ffe6
+    self.UUID_GREEN = ""   #handle ffe7
+    self.UUID_BLUE = ""    #handle ffe8
+    self.UUID_RGBW = ""    #handle ffe9
+    self.UUID_WHITE = ""   #handle ffea
 
   def handleNotification(self, cHandle, data):
     if data[5] > 2:
@@ -61,7 +61,7 @@ class zengge:
         raise BleakError(f"A device with address {self.mac} could not be found.")
     self.client = BleakClient(self.device)
     await self.client.connect()
-    await self.client.start_notify(self.notifyhandle, self.handleNotification)
+    await self.client.start_notify(self.NOTIFY_UUID, self.handleNotification)
 
     self.get_state()
 
@@ -79,12 +79,12 @@ class zengge:
   async def off(self):
     self.power = False
     packet = bytearray([0xcc, 0x24, 0x33])
-    await self.send_packet(self.rgbwhandle, packet)
+    await self.send_packet(self.UUID_RGBW, packet)
 
   async def on(self):
     self.power = True
     packet = bytearray([0xcc, 0x23, 0x33])
-    await self.send_packet(self.rgbwhandle, packet)
+    await self.send_packet(self.UUID_RGBW, packet)
 
   async def set_rgb(self, red, green, blue):
     self.red = red
@@ -92,7 +92,7 @@ class zengge:
     self.blue = blue
     self.white = 0
     packet = bytearray([0x56, red, green, blue, 0x00, 0xf0, 0xaa])
-    await self.send_packet(self.rgbwhandle, packet)
+    await self.send_packet(self.UUID_RGBW, packet)
 
   async def set_white(self, white):
     self.red = 0
@@ -100,20 +100,20 @@ class zengge:
     self.blue = 0
     self.white = white
     packet = bytearray([0x56, 0x00, 0x00, 0x00, white, 0x0f, 0xaa])
-    await self.send_packet(self.rgbwhandle, packet)
+    await self.send_packet(self.UUID_RGBW, packet)
 
   async def set_rgbw(self, red, green, blue, white):
     self.red = red
     self.green = green
     self.blue = blue
     self.white = white
-    await self.send_packet(self.redhandle, bytearray([red]))
-    await self.send_packet(self.greenhandle, bytearray([green]))
-    await self.send_packet(self.bluehandle, bytearray([blue]))
-    await self.send_packet(self.whitehandle, bytearray([white]))
+    await self.send_packet(self.UUID_RED, bytearray([red]))
+    await self.send_packet(self.UUID_GREEN, bytearray([green]))
+    await self.send_packet(self.UUID_BLUE, bytearray([blue]))
+    await self.send_packet(self.UUID_WHITE, bytearray([white]))
 
   async def get_state(self):
-    await self.send_packet(self.rgbwhandle, bytearray([0xef, 0x01, 0x77]))
+    await self.send_packet(self.UUID_RGBW, bytearray([0xef, 0x01, 0x77]))
     #self.client.waitForNotifications(1.0)    #from bluepy lib
 
   def get_on(self):
