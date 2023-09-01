@@ -1,7 +1,7 @@
 # Python module for control of Zengge bluetooth LED bulbs
 #
 # Copyright 2016 Matthew Garrett <mjg59@srcf.ucam.org>
-# This code was modified by SilentNinja0o
+# Modified by SleepyNinja0o <vb6email@gmail.com>
 # It is being ported from the bluepy library to bleak
 #
 # This code is released under the terms of the MIT license. See the LICENSE
