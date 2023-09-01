@@ -13,7 +13,7 @@ import time
 from bleak import BleakClient, BleakScanner
 from bleak.exc import BleakError
 
-'''class Delegate(btle.DefaultDelegate):
+'''class Delegate(btle.DefaultDelegate):   #Bleak doesn't require a Delegate function
     def __init__(self, bulb):
       self.bulb = bulb
       btle.DefaultDelegate.__init__(self)
