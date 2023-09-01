@@ -1,7 +1,7 @@
 Python control for Zengge-style LED bulbs
 =========================================
 
-A simple Python API for controlling LED bulbs compatible with the [Zengge](http://www.enledcontroller.com/) protocol. This covers a wide range of bulbs, including the Flux Bluetooth bulbs.
+A simple Python API for controlling LED bulbs compatible with the Zengge protocol. This covers a wide range of bulbs, including the Flux Bluetooth bulbs.
 
 Example use
 -----------
